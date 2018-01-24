@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="user-center-header has-blurr" data-href="/static/upload/9.png?t=1478160813.33"
+         data-sharpness="40" style="height: 220px; overflow: hidden; position: relative;">
+        <div class="blurr-bg"
+             style="background: url('{{ user.avatar_url }}') center center / 150%; left: 0px; right: 0px; top: -50px; bottom: -50px; width: 1916px; filter: blur(60px); transform: translateZ(0px); position: absolute;"></div>
+        <div class="container clearfix" style="position: absolute; left: 0px; right: 0px; z-index: 1;">
+            <div class="user-avatar">
+                <div class="avatar-wrap">
+                    <img class="avatar-lg" src="{{ user.avatar_url }}">
+                </div>
+                <div class="name">
+                    {{ user.username }}
+                </div>
+                <div class="position">Total assets
+                    $<span>{{ user_profit.all_mark_value + user.balance }}</span>
+                </div>
+                <div class="position">Account Balance
+                    $<span>{{ user.balance }}</span>
+                </div>
+                <div class="mates">
+                    <span class="mrm">Profit $ </span>{{ user_profit.all_profit | round(2, 'floor')  }}
+                    <span class="mlm mrm">｜</span><span
+                        class="mrm">Profitability</span>{{ user_profit.all_profit_ratio }}%
+                </div>
+            </div>
+            <div class="user-about hidden-sm hidden-xs">
+                <div class="user-about-content">
+                    {{ user.personal_profile or "No Signature" }}
+                </div>
+            </div>
+        </div>
+        <div class="mask" style="position: absolute; left: 0px; right: 0px; z-index: 1;"></div>
+    </div>
+
+    <div id="content-container" class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Stocks</h3>
+                </div>
+
+                <div class="panel-body">
+                    {% if profit_stock_list %}
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Stock Code</th>
+                                <th>Stock Name</th>
+                                <th>Brought Price</th>
+                                <th>Volumn</th>
+                                <th>Current Price</th>
+                                <th>Total</th>
+                                <th>Profitability</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for profit_stock in profit_stock_list %}
+                                <tr>
+                                    <td>{{ profit_stock.code }}</td>
+                                    <td>
+                                        <a href='{{ url_for('stock.buy',code=profit_stock.code) }}'>{{ profit_stock.name }}</a>
+                                    </td>
+                                    <td>${{ profit_stock.average_price }}</td>
+                                    <td>{{ profit_stock.own_num }}</td>
+                                    <td>${{ profit_stock.real_price }}</td>
+                                    <td>${{ profit_stock.mark_value | round(2,"floor") }}</td>
+                                    {% if profit_stock.cost != 0 %}
+                                        <td>{{ (profit_stock.mark_value - profit_stock.cost) / profit_stock.cost }}%</td>
+                                    {% else %}
+                                        <td>0</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <br>
+                        <p class="text-center">Haven't hold any stocks!</p>
+                        <br>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Following Stocks</h3>
+                </div>
+
+                <div class="panel-body">
+                    {% if follow_stock %}
+                        <div class="stock-list">
+                            <div class="row">
+                                {% for stock in follow_stock %}
+                                    <div class="col-lg-3 col-md-4 col-xs-6">
+                                        <div class="stock-item">
+                                            <div class="stock-img">
+                                                <a href="{{ url_for('stock.stock_view',code=stock.code) }}"
+                                                   target="_blank">
+                                                    <img src="{{ url_for('static',filename='images/company/'+stock.code+'.png') }}"
+                                                         class="img-responsive">
+                                                </a>
+
+                                            </div>
+                                            <div class="stock-info">
+                                                <div class="title">
+                                                    <a class="link-dark"
+                                                       href="{{ url_for('stock.stock_view',code=stock.code) }}"
+                                                       target="_blank"
+                                                       title="{{ stock.name }}">
+                                                        {{ stock.name }}
+                                                    </a>
+                                                </div>
+                                                <div class="metas clearfix">
+                                                    {% if stock.flag %}
+                                                        <i class="es-icon es-icon-favorite" name="{{ stock.code }}"
+                                                           style="color: red"></i>
+                                                    {% else %}
+                                                        <i class="es-icon es-icon-favorite"
+                                                           name="{{ stock.code }}"></i>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <br>
+                        <p class="text-center">Haven't hold any stocks!</p>
+                        <br>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block footer_ext %}
+    <script>
+        $(document).ready(function () {
+            var icons = $(".es-icon-favorite");
+            for (var i = 0; i < icons.length; i++) {
+                var icon = icons.eq(i)
+                icon.bind("click", function (icon) {
+
+                    return function () {
+                        var stockCode = icon.attr("name");
+                        if (icon.css("color") != "rgb(255, 0, 0)") {
+                            console.log("follow");
+                            $.get("../../stock/follow/" + stockCode + "/");
+                            icon.css("color", "red");
+                        } else {
+                            $.get("../../stock/unfollow/" + stockCode + "/");
+                            icon.css("color", "rgb(193, 193, 193)");
+                            console.log("unfollow");
+                        }
+                    };
+                }(icon));
+            }
+        });
+    </script>
+
+{% endblock %}

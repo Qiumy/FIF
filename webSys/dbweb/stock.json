@@ -1,0 +1,82 @@
+[
+    {
+        "Code": "WMT",
+        "Name": "Wal-Mart Stores, Inc. "
+    },
+    {
+        "Code": "XOM",
+        "Name": "Exxon Mobil Corporation "
+    },
+    {
+        "Code": "TM",
+        "Name": "Toyota Motor Corporation"
+    },
+    {
+        "Code": "AAPL",
+        "Name": "Apple Inc. "
+    },
+    {
+        "Code": "BRK-A",
+        "Name": "Berkshire Hathaway Inc. "
+    },
+    {
+        "Code": "UNH",
+        "Name": "UnitedHealth Group Incorporated"
+    },
+    {
+        "Code": "CVS",
+        "Name": "CVS Health Corporation "
+    },
+    {
+        "Code": "GM",
+        "Name": "General Motors Company "
+    },
+    {
+        "Code": "F",
+        "Name": "Ford Motor Company"
+    },
+    {
+        "Code": "T",
+        "Name": "AT&T Inc."
+    },
+    {
+        "Code": "GE",
+        "Name": "General Electric Company"
+    },
+    {
+        "Code": "ABC",
+        "Name": "AmerisourceBergen Corporation"
+    },
+    {
+        "Code": "VZA",
+        "Name": "Verizon Communications Inc."
+    },
+    {
+        "Code": "CVX",
+        "Name": "Chevron Corporation"
+    },
+    {
+        "Code": "HMC",
+        "Name": "Honda Motor Co., Ltd."
+    },
+    {
+        "Code": "KR",
+        "Name": "The Kroger Co."
+    },
+    {
+        "Code": "AMZN",
+        "Name": "Amazon.com, Inc."
+    },
+    {
+        "Code": "GOOG",
+        "Name": "Alphabet Inc."
+    },
+    {
+        "Code": "HPQ",
+        "Name": "HP Inc. "
+    },
+    {
+        "Code": "MSFT",
+        "Name": "Microsoft Corporation"
+    }
+]

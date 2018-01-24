@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('stock.index') }}">{{ _('All The Stocks') }}</a></li>
+        </ol>
+
+        <div class="stock-list">
+            <div class="row">
+                {% for stockinfo in stocks %}
+                    <div class="col-lg-3 col-md-4 col-xs-6">
+                        <div class="stock-item">
+                            <div class="stock-img">
+                                <a href="{{ url_for('stock.stock_view',code=stockinfo.code) }}" target="_blank">
+                                    <img src="{{ url_for('static',filename='images/company/'+stockinfo.code+'.png') }}"
+                                         class="img-responsive">
+                                </a>
+
+                            </div>
+                            <div class="stock-info">
+                                <div class="title">
+                                    <a class="link-dark" href="{{ url_for('stock.stock_view',code=stockinfo.code) }}"
+                                       target="_blank"
+                                       title="{{ stockinfo.name }}">
+                                        {{ stockinfo.name }}
+                                    </a>
+                                </div>
+                                <div class="metas clearfix">
+                                    {% if stockinfo.flag %}
+                                        <i class="es-icon es-icon-favorite" name="{{ stockinfo.code }}"
+                                           style="color: red"></i>
+                                    {% else %}
+                                        <i class="es-icon es-icon-favorite" name="{{ stockinfo.code }}"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        $(document).ready(function () {
+            var icons = $(".es-icon-favorite");
+            for (var i = 0; i < icons.length; i++) {
+                var icon = icons.eq(i)
+                icon.bind("click", function (icon) {
+
+                    return function () {
+                        var stockCode = icon.attr("name");
+                        if (icon.css("color") != "rgb(255, 0, 0)") {
+                            console.log("follow");
+                            $.get("./follow/" + stockCode + "/");
+                            icon.css("color", "red");
+                        } else {
+                            $.get("./unfollow/" + stockCode + "/");
+                            icon.css("color", "rgb(193, 193, 193)");
+                            console.log("unfollow");
+                        }
+                    };
+                }(icon));
+            }
+        });
+    </script>
+
+{% endblock %}

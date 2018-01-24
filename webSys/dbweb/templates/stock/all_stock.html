@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+
+
+    <style type="text/css">
+        #whole table{font-size: 18px;}
+    </style>
+{% endblock %}
+
+{% block content %}
+<section class="course-list-section open-course-list-section ">
+    <div id="whole" class="container table-responsive">
+        <div class="text-line">
+            <h5><span>大盘指数</span>
+                <div class="line"></div>
+            </h5>
+            <div class="subtitle">截至 {{dates}}</div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>指数代码</th>
+                    <th>指数名称</th>
+                    <th>涨跌幅</th>
+                    <th>开盘点位</th>
+                    <th>昨日收盘点位</th>
+                    <th>收盘点位</th>
+                    <th>最高点位</th>
+                    <th>最低点位</th>
+                    <th>成交量(手)</th>
+                    <th>成交金额(亿元)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for indicator in whole_indicators %}
+                <tr>
+                    <td>{{ indicator.code }}</td>
+                    <td><i><b>{{ indicator.name }}</b></i></td>
+                    <td>{{ indicator.change }}%</td>
+                    <td>{{ indicator.open }}</td>
+                    <td>{{ indicator.preclose }}</td>
+                    <td>{{ indicator.close }}</td>
+                    <td>{{ indicator.high }}</td>
+                    <td>{{ indicator.low }}</td>
+                    <td>{{ indicator.volume }}</td>
+                    <td>{{ indicator.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="section-more-btn">
+            <a href="/" class="btn btn-default btn-lg">
+                返回首页<i class="mrs-o es-icon es-icon-chevronright"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer_ext %}
+
+{% endblock %}
+
+

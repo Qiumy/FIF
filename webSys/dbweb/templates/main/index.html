@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <style type="text/css">
+        #whole table {
+            font-size: 1.5em;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="swiper-container">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active" style="background-color: #3083eb">
+                    <img src="/static/images/carousel_1.jpg" alt="图片1">
+                </div>
+                <div class="item" style="background-color: #0884f6">
+                    <img src="/static/images/carousel_2.jpg" alt="图片2">
+                </div>
+                <div class="item" style="background-color: #2f82ea">
+                    <img src="/static/images/carousel_1.jpg" alt="图片1">
+                </div>
+                <div class="item" style="background-color: #0884f6">
+                    <img src="/static/images/carousel_2.jpg" alt="图片2">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">{{ _('Previous') }}</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">{{ _('Next') }}</span>
+            </a>
+        </div>
+    </section>
+
+
+    <section class="course-list-section open-course-list-section ">
+        <div class="container">
+            <div class="text-line">
+                <h5><span>{{ _('Recommend Stocks') }}</span>
+                    <div class="line"></div>
+                </h5>
+                <div class="subtitle">{{ _('Simulated investment') }}</div>
+            </div>
+
+            <div class="stock-list">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#panel1" aria-controls="panel1" role="tab"
+                                                              data-toggle="tab">{{ _('American') }}</a></li>
+                    <li role="presentation"><a href="#panel2" aria-controls="panel2" role="tab"
+                                               data-toggle="tab">{{ _('China') }}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="panel1">
+                        <div class="row">
+                            {% for stockinfo in stocks %}
+                                <div class="col-lg-3 col-md-4 col-xs-6">
+                                    <div class="stock-item">
+                                        <div class="stock-img">
+                                            <a href="{{ url_for('stock.stock_view',code=stockinfo.code) }}"
+                                               target="_blank">
+                                                <img src="{{ url_for('static',filename='images/company/'+stockinfo.code+'.png') }}"
+                                                     class="img-responsive">
+                                            </a>
+
+                                        </div>
+                                        <div class="stock-info">
+                                            <div class="title">
+                                                <a class="link-dark"
+                                                   href="{{ url_for('stock.stock_view',code=stockinfo.code) }}"
+                                                   target="_blank"
+                                                   title="{{ stockinfo.name }}">
+                                                    {{ stockinfo.name }}
+                                                </a>
+                                            </div>
+                                            <div class="metas clearfix">
+                                                {% if stockinfo.flag %}
+                                                    <i class="es-icon es-icon-favorite" name="{{ stockinfo.code }}"
+                                                       style="color: red"></i>
+                                                {% else %}
+                                                    <i class="es-icon es-icon-favorite" name="{{ stockinfo.code }}"></i>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="section-more-btn">
+                                <a href="/stock/" class="btn btn-default btn-lg">
+                                    {{ _('MORE') }}<i class="mrs-o es-icon es-icon-chevronright"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="panel2">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!--
+    <section class="stock-list-section open-stock-list-section ">
+        <div id="whole" class="container table-responsive">
+            <div class="text-line">
+                <h5><span>All Indicators</span>
+                    <div class="line"></div>
+                </h5>
+                <div class="subtitle">Until {{ dates }}</div>
+            </div>
+
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Change</th>
+                    <th>Open</th>
+                    <th>PreClose</th>
+                    <th>Close</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Volume</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+{#                {% for indicator in whole_indicators %}#}
+{#                    <tr>#}
+{#                        <td>{{ indicator.code }}</td>#}
+{#                        <td><i>{{ indicator.name }}</i></td>#}
+{#                        <td>{{ indicator.change }}%</td>#}
+{#                        <td>{{ indicator.open }}</td>#}
+{#                        <td>{{ indicator.preclose }}</td>#}
+{#                        <td>{{ indicator.close }}</td>#}
+{#                        <td>{{ indicator.high }}</td>#}
+{#                        <td>{{ indicator.low }}</td>#}
+{#                        <td>{{ indicator.volume }}</td>#}
+{#                        <td>{{ indicator.amount }}</td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+                </tbody>
+            </table>
+            <div class="section-more-btn">
+                <a href="/stock/allstock/" class="btn btn-default btn-lg">
+                    More<i class="mrs-o es-icon es-icon-chevronright"></i>
+                </a>
+            </div>
+
+
+        </div>
+    </section>
+
+    -->
+    <section class="dynamic-section ">
+        <div class="container">
+            <div class="text-line gray">
+                <h5><span>{{ _('Informations') }}</span>
+                    <div class="line"></div>
+                </h5>
+                <div class="subtitle">{{ _('Pay attention to industry trends & Grasp the investment opportunities') }}</div>
+            </div>
+            <div class="dynamic-section-main row">
+                <div class="col-md-6">
+                    <div class="panel panel-default index-article">
+                        <div class="panel-heading">
+                            <a href="/article" class="more"><i class="es-icon es-icon-morehoriz"></i></a>
+                            <h3 class="panel-title"><i class="es-icon es-icon-whatshot pull-left"></i>{{ _('Notices') }}
+                            </h3>
+                        </div>
+                        <div class="panel-body clearfix">
+                            <ul class="index-new-article ">
+                                {% for notice in notices %}
+                                    <li class="clearfix">
+                                        <i class="es-icon es-icon-dot color-primary mrs"></i><a
+                                            href="/article/{{ notice.id }}">{{ notice.title }}</a>
+                                        <span class="date">{{ notice.updated_time.month }}-{{ notice.updated_time.day }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default index-article">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{ _('The Latest News') }}
+                            </h3>
+                        </div>
+                        <div class="panel-body clearfix">
+                            <ul class="index-new-article ">
+                                {% for new in news %}
+                                    <li class="clearfix">
+                                        <i class="es-icon es-icon-dot color-primary mrs"></i><a
+                                            href="{{ new.link }}" title="{{ new.title }}">{{ new.title }}</a>
+                                        <span class="date">{{ new.time }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        $(document).ready(function () {
+            var icons = $(".es-icon-favorite");
+            for (var i = 0; i < icons.length; i++) {
+                var icon = icons.eq(i)
+                icon.bind("click", function (icon) {
+
+                    return function () {
+                        var stockCode = icon.attr("name");
+                        if (icon.css("color") != "rgb(255, 0, 0)") {
+                            console.log("follow");
+                            $.get("./stock/follow/" + stockCode + "/");
+                            icon.css("color", "red");
+                        } else {
+                            $.get("./stock/unfollow/" + stockCode + "/");
+                            icon.css("color", "rgb(193, 193, 193)");
+                            console.log("unfollow");
+                        }
+                    };
+                }(icon));
+            }
+        });
+    </script>
+
+{% endblock %}
+

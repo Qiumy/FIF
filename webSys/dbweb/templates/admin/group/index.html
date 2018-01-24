@@ -1,0 +1,67 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div class="container" id="content-container">
+        <div class="panel panel-default panel-col">
+            <div class="panel-heading">
+                    <span class="pull-right">
+                        <a id="create-course" href="{{ url_for('admin.group_create') }}" class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            {{ _('New Group') }}
+                        </a>
+                    </span>
+                All Groups
+            </div>
+
+            <div class="panel-body">
+                <table class="table" id="course-table" style="word-break:break-all;">
+                    <thead>
+                    <tr>
+                        <th width="33%">{{ _('Group Name') }}</th>
+                        <th width="33%">{{ _('Topic Num') }}</th>
+                        <th width="33%">{{ _('More') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tb">
+                    {% for g in groups %}
+                        <tr data-gid="{{ g.id }}">
+                            <td>{{ g.title }}</td>
+                            <td>{{ g.topicNum }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.group_edit', gid=g.id) }}">Edit</a>
+                                <span class="divider"> | </span>
+                                <a href="{{ url_for('group.group_view', gid=g.id) }}" target="_blank">{{ _('Preview') }}</a>
+                                <span class="divider"> | </span>
+                                <a href="javascript:void(0)" name="del-btn">{{ _('Delete') }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_ext %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tb").find("a[name=del-btn]").each(function () {
+                $(this).click(function () {
+                    var obj = this;
+                    $.ajax({
+                        type: "post",
+                        url: "{{ url_for('admin.group_delete') }}",
+                        data: {gid: $(obj).parent().parent().data('gid')},
+                        success: function (data) {
+                            $(obj).parent().parent().remove();
+                            alert("Success Delete!");
+                        }
+                    });
+                });
+            })
+        });
+    </script>
+{% endblock %}
+
+{# articles #}

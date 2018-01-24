@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div id="content-container" class="container">
+
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('group.index') }}">{{ _('All Groups') }}</a></li>
+            <li><a href="{{ url_for('group.group_all') }}">{{ _('All Topics') }}</a></li>
+        </ol>
+
+        <div class="row">
+            <div class="col-md-9 group-main">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ _('All Groups') }}</h3>
+                    </div>
+                    {% include 'group/widget_group_list.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

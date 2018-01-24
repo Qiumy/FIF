@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+
+    <style type="text/css">
+        #k_line {
+            width: 850px;
+            height: 600px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <section class="course-list-section open-course-list-section ">
+        <div class="container">
+            <div class="text-line">
+                <h5><span>{{ stock.name }}</span>
+                    <div class="line"></div>
+                </h5>
+                <div class="subtitle">{{ _('Stock Code') }}：{{ stock.code }}</div>
+            </div>
+
+            <div class="container text-center">
+                <div id="k_line" class="container col-lg-10 col-md-11 col-xs-11"></div>
+                <div class="col-lg-3 col-md-11 col-xs-11">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title" style="font-size: 18px">
+                                {{ _('Predicted Increase Percent') }}
+                            </h2>
+                        </div>
+                        <div class="panel-body clearfix">
+                            <i class="es-icon es-icon-arrowup" style="font-size: 36px">{{ preInfo.inc or 0 }}%</i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 col-md-11 col-xs-11">
+
+                    <div class="panel panel-default index-article">
+                        <div class="panel-heading">
+                            <h2 class="panel-title" style="font-size: 18px">
+                                {{ _('Relative News') }}
+                            </h2>
+                        </div>
+                        <div class="panel-body clearfix">
+                            <ul class="index-new-article ">
+                                {% for new in news %}
+                                    <li class="clearfix" style="padding-right: 10px">
+                                        <i class="es-icon es-icon-dot color-primary mrs"></i><a
+                                            href="{{ new.link }}" title="{{ new.title }}">{{ new.title}}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="section-more-btn">
+
+            <a href="{{ url_for('stock.buy',code=stock.code) }}" class="btn btn-primary btn-lg">
+                {{ _('Buy') }}
+            </a>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer_ext %}
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('k_line'));
+        function formatterData(sData) {
+            var categoryData = [];
+            var values = [];
+            for (var i = 0; i < sData.length; i++) {
+                categoryData.push(sData[i][0].toString());
+                values.push([sData[i][1], sData[i][2], sData[i][3], sData[i][4]]);
+            }
+            return {
+                categoryData: categoryData.reverse(),
+                values: values
+            };
+        }
+        var data = new Array();
+
+        {% for d in stockHisData %}
+            var date = '{{ d['Date'] }}';
+            data.push([date.toString(), {{ d['Open'] }}, {{ d['Close'] }}, {{ d['Low'] }}, {{ d['High'] }}])
+        {% endfor %}
+        data = formatterData(data);
+
+        function calculateMA(dayCount, data) {
+            var result = [];
+            for (var i = 0, len = data.values.length; i < len; i++) {
+                if (i < dayCount) {
+                    result.push('-');
+                    continue;
+                }
+                var sum = 0;
+                for (var j = 0; j < dayCount; j++) {
+                    sum += parseFloat(data.values[i - j][1]);
+                }
+                result.push(+(sum / dayCount).toFixed(3));
+            }
+            return result;
+        }
+
+        option = {
+            title: {
+                text: 'Historical K-Line',
+                left: 0
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line'
+                }
+            },
+            legend: {
+                data: ['K', 'MA5', 'MA10', 'MA20', 'MA30']
+            },
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '15%'
+            },
+            xAxis: {
+                type: 'category',
+                data: data.categoryData,
+                scale: true,
+                boundaryGap: false,
+                axisLine: {onZero: false},
+                splitLine: {show: false},
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax'
+            },
+            yAxis: {
+                scale: true,
+                splitArea: {
+                    show: true
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    start: 50,
+                    end: 100
+                },
+                {
+                    show: true,
+                    type: 'slider',
+                    y: '90%',
+                    start: 50,
+                    end: 100
+                }
+            ],
+            series: [
+                {
+                    name: 'K',
+                    type: 'candlestick',
+                    data: data.values,
+                    markPoint: {
+                        label: {
+                            normal: {
+                                formatter: function (param) {
+                                    return param != null ? Math.round(param.value) : '';
+                                }
+                            }
+                        },
+                        tooltip: {
+                            formatter: function (param) {
+                                return param.name + '<br>' + (param.data.coord || '');
+                            }
+                        }
+                    },
+                    markLine: {
+                        symbol: ['none', 'none'],
+                        data: [
+                            [
+                                {
+                                    name: 'from lowest to highest',
+                                    type: 'min',
+                                    valueDim: 'lowest',
+                                    symbol: 'circle',
+                                    symbolSize: 10,
+                                    label: {
+                                        normal: {show: false},
+                                        emphasis: {show: false}
+                                    }
+                                },
+                                {
+                                    type: 'max',
+                                    valueDim: 'highest',
+                                    symbol: 'circle',
+                                    symbolSize: 10,
+                                    label: {
+                                        normal: {show: false},
+                                        emphasis: {show: false}
+                                    }
+                                }
+                            ],
+                            {
+                                name: 'min line on close',
+                                type: 'min',
+                                valueDim: 'close'
+                            },
+                            {
+                                name: 'max line on close',
+                                type: 'max',
+                                valueDim: 'close'
+                            }
+                        ]
+                    }
+                },
+                {
+                    name: 'MA5',
+                    type: 'line',
+                    data: calculateMA(5, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA10',
+                    type: 'line',
+                    data: calculateMA(10, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA20',
+                    type: 'line',
+                    data: calculateMA(20, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA30',
+                    type: 'line',
+                    data: calculateMA(30, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+{% endblock %}

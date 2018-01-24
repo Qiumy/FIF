@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container article-detail-main" id="content-container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('article.index') }}">{{ _('Notices') }}</a></li>
+            <li class="active">{{ article.title | truncate(30) }}</li>
+        </ol>
+
+        <section class="es-section article-content">
+
+            <div class="article-metas">
+                <div class="pull-left">
+                    <div class="date">
+                        <div class="day">{{ article.updated_time.day }}</div>
+                        <div class="month">{{ article.updated_time.month }}</div>
+                    </div>
+                </div>
+                <div class="metas-body">
+                    <h2 class="title">{{ article.title }}</h2>
+                    <div class="sns">
+                        <span class="views-num"><i class="es-icon es-icon-visibility"></i>{{ article.visit_num }}</span>
+                    </div>
+                </div>
+            </div>
+            <div id="content" class="article-text">{{ article.content | markdown | safe }}</div>
+        </section>
+    </div>
+{% endblock %}

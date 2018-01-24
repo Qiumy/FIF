@@ -1,0 +1,42 @@
+<div class="panel-body">
+    {% if topics %}
+        <ul class="media-list thread-list">
+            {% for t in topics %}
+                <li class="col-md-12 col-xs-12 topic-row">
+                    <div class="media-left">
+                        <a href="{{ url_for('user.view', uid=t.user_id) }}">
+                            <img src="{{ t.user.avatar_url }}" alt="avatar" class="avatar-md">
+                        </a>
+                    </div>
+                    <h3 class="topic-title"><a href="{{ url_for('category.topic_view', tid=t.id) }}">{{ t.title }}</a></h3>
+                    <small>
+                        {% if t.posts.all() %}
+                            <a class="topic-reply-name" href="{{ url_for('user.view', uid=t.posts[-1].user_id) }}">
+                                <img src="{{ t.posts[-1].user.avatar_url }}" alt="avatar"
+                                     class="avatar-xxs"> {{ t.posts[-1].user.username }}
+                            </a>
+                            {{ _('Last Reply at ') |safe}}
+                            <time class="topic-reply-time">{{ t.created_time | natural_time }}</time>
+                        {% else %}
+                            <span>{{ _('No Reply') }}</span>
+                        {% endif %}
+                            <i class="es-icon es-icon-comment"></i>
+                            <span class="topic-reply-nums">{{ t.post_num }}</span>
+                            <i class="es-icon es-icon-view"></i><span class="topic-view-nums">{{ t.visit_num }}</span>
+
+                    </small>
+                </li>
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="panel-heading" id="post-num">
+            <div class="alert alert-info">
+                {{ _('No topics') }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+
+{# topics #}

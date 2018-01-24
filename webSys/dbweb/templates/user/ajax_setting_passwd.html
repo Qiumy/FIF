@@ -1,0 +1,50 @@
+<div class="panel panel-default panel-col">
+    <div class="panel-heading">Modify Password</div>
+    <div class="panel-body">
+
+        {% if message_success %}
+            <div class="text-center alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                {{ message_success }}</div>
+        {% endif %}
+
+        <form class="form-horizontal" action="{{ url_for('user.setting_password') }}">
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="col-md-offset-1 col-md-2 control-label"
+                       for="old_password">Old Password</label>
+                <div class="col-md-7">
+                    <input type="password" id="old_password" name="old_password" class="form-control">
+                </div>
+                {% if message_cur %}
+                    <div class="col-md-offset-3 col-md-12 text-danger">{{ message_cur }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label class="col-md-offset-1 col-md-2 control-label" for="password">New Password</label>
+                <div class="col-md-7">
+                    <input type="password" id="password" name="password" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-offset-1 col-md-2 control-label" for="password2">New Password Again</label>
+                <div class="col-md-7">
+                    <input type="password" id="password2" name="password2" class="form-control">
+                </div>
+                {% if message_new %}
+                    <div class="col-md-offset-3 col-md-12 text-danger">{{ message_new }}</div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 col-md-offset-9">
+                    <button type="submit" class="btn btn-primary">save</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+

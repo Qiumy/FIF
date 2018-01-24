@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('group.index') }}">{{ _('Groups') }}</a></li>
+            <li class="active">
+                <a href="{{ url_for('group.group_view', gid=group.id) }}">{{ group.title | truncate(20) }}</a></li>
+        </ol>
+
+        <div class="group-header"
+             style="background:url({{ url_for('static', filename='images/background_group.jpg') }});background-repeat:no-repeat;background-size: 100% 100%;">
+            <div class="media">
+                <div class="media-left">
+                    <a href="{{ url_for('group.group_view', gid=group.id) }}">
+                        <img src="{{ group.logo }}" alt="{{ group.title }}" class="avatar-square-md">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h2 class="media-heading">
+                        {{ group.title }}
+                    </h2>
+
+                    <div class="media-metas">
+                        <span class="mlm">{{ group.topic_num }}</span>{{ _('Topics') }}
+                        <span class="mlm">{{ _('Created Time') }}：{{ group.created_time | natural_time }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="image-overlay image-overlay-o"></div>
+        </div>
+
+        <div class="row">
+            <!-- Group's topics -->
+            <div class="col-md-9 group-main">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">{{ _('Groups Introduction') }}</h3></div>
+                    <div class="panel-body">
+                        <div class="well editor-text">
+                            <p>{{ group.about }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ _('Hot Topics') }}</h3>
+                        <a href="{{ url_for('group.topic_all', gid=group.id) }}" class="more">
+                            <i class="es-icon es-icon-morehoriz"></i></a>
+                    </div>
+
+                    {% with latest_topics = hot_topics %}
+                        {% include 'group/widget_topic_list.html' %}
+                    {% endwith %}
+
+                </div>
+            </div>
+            <!-- End of topics -->
+
+            <div class="col-md-3 group-side">
+                {% if current_user.is_authenticated %}
+                    <div class="mbm" id="new-topic">
+                        {% if current_user.id %}
+                            <a href="{{ url_for('group.topic_new', gid=group.id) }}"
+                               class="btn btn-success btn-xlg btn-block" role="button">
+                                <i class="es-icon es-icon-comment mrs text-xlg"></i>New Topic</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div id="my-group">
+                    {% if current_user.is_authenticated %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <br>
+                                <p>{{ _('Hello') }}, {{ current_user.username }}</p>
+                                <br>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <br>
+                                <p class="text-center">You haven't Sign in, Please<a
+                                        href="{{ url_for('user.signin', next=request.url) }}"> {{ _('Sign in') }}</a>
+                                    Or <a href="{{ url_for('user.reg', next=request.url) }}"> {{ _('Sign up') }}</a></p>
+                                <br>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{# group #}
+{# hot_topics #}

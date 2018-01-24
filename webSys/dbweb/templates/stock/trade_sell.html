@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+    <style type="text/css">
+        #realtime_line {
+            width: 100%;
+            height: 400px;
+        }
+
+        #submit {
+            margin-left: 115px;
+        }
+    </style>
+    {% if message_done %}
+        <script type="text/javascript">
+            alert('{{ message_done }}')
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="content-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidenav" id="setting-choose">
+                    <ul class="list-group">
+                        <li class="list-group-heading">Trade Operator</li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('stock.buy',code=code) }}">
+                                <i class="glyphicon glyphicon-lock"></i> Buy In</a>
+                        </li>
+
+                        <li class="list-group-item active">
+                            <a href="{{ url_for('stock.sell',code=code) }}">
+                                <i class="glyphicon glyphicon-lock"></i> Sell Out</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('stock.list',code=code) }}">
+                                <i class="glyphicon glyphicon-picture"></i> Trade List</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class=" panel panel-default">
+                    <div class="panel-heading">
+
+                        <h2 class="panel-title" style="font-size: 18px">
+                            Predicted Increase Percent
+                        </h2>
+                    </div>
+                    <div class="panel-body clearfix text-center">
+                        <i class="es-icon es-icon-arrowup" style="font-size: 36px">{{ preInfo.inc or 0 }}%</i>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default index-article">
+                    <div class="panel-heading">
+                        <h2 class="panel-title" style="font-size: 18px">
+                            Relative News
+                        </h2>
+                    </div>
+                    <div class="panel-body clearfix">
+                        <ul class="index-new-article ">
+                            {% for new in news %}
+                                <li class="clearfix" style="padding-right: 10px">
+                                    <i class="es-icon es-icon-dot color-primary mrs"></i><a
+                                        href="{{ new.link }}" title="{{ new.title }}">{{ new.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9" id="setting-content">
+                <div class="panel panel-default panel-col">
+                    <div class="panel-heading">Sell out——{{ name }}({{ code }})</div>
+                    <div class="panel-body">
+                        <div id="realtime_line" class="container text-center">
+                            <h1>Now is not trade time!</h1>
+                        </div>
+
+                        <form class="form-horizontal" action="/stock/sell/{{ code }}/" novalidate="novalidate"
+                              method="post">
+                            <div class="form-group"></div>
+                            <div class="form-group">
+                                <label class="col-md-offset-1 col-md-2 control-label">Current Balance</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" id="balance" name="balance" class="form-control"
+                                               value='{{ balance }}' disabled></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-offset-1 col-md-2 control-label">Real-time Stock Price</label>
+                                <div class="col-md-7">
+                                    <div class="input-group spinner">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" id="price_show" class="form-control" value="0" disabled>
+                                    </div>
+                                    <input type="hidden" id="price" name="price" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-offset-1 col-md-2 control-label">Hold Shares</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Volume</span>
+                                        <input type="text" class="form-control" value="{{ own_num }}" disabled></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-offset-1 col-md-2 control-label">Sell</label>
+                                <div class="col-md-7">
+                                    <input type="number" name="sell_num" class="form-control" value="1" min="1">
+                                    {% if message_n %}
+                                        <div class="help-block" style="display:none;">{{ message_n }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button id="submit" type="submit" class="btn btn-primary btn-lg">Commit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer_ext %}
+    <script type="text/javascript">
+
+        var data_time = [];
+        var data_value = [];
+
+        $.ajax({
+            url: "/stock/real/{{ code }}",
+            dataType: 'json',
+            success: function (resp) {
+                for (var i = 0; i < 10; i++) {
+                    data_time.push("");
+                    data_value.push(parseFloat(resp[1]));
+                    $('#price_show').attr('value', resp[1]);
+                    $('#price').attr('value', resp[1]);
+                }
+            },
+            error: function (resp) {
+                alert('获取实时数据失败，请检查网络连接状况')
+            }
+        });
+
+        option = {
+            title: {
+                text: '{{ name }}-Real-time Price',
+                subtext: 'StockCode:{{ code }}'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: data_time
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 元'
+                }
+            },
+            series: [
+                {
+                    name: '实时价格',
+                    type: 'line',
+                    data: data_value
+                }
+            ]
+        };
+
+        if ("{{is_trade}}" == "True") {
+            var myChart = echarts.init(document.getElementById('realtime_line'));
+            myChart.setOption(option);
+
+
+            timeTicket = setInterval(function () {
+
+                $.ajax({
+                    url: "/stock/real/{{ code }}",
+                    dataType: 'json',
+                    success: function (resp) {
+                        data_time.shift();
+                        data_time.push(resp[0]);
+                        data_value.shift();
+                        data_value.push(parseFloat(resp[1]))
+                        $('#price_show').attr('value', resp[1]);
+                        $('#price').attr('value', resp[1]);
+                        console.log(resp[0] + ' ' + resp[1]);
+                        myChart.setOption({
+                            series: [{
+                                data: data_value
+                            }],
+                            xAxis: [{
+                                data: data_time
+                            }],
+                        });
+                    },
+                    error: function (resp) {
+                        alert('获取实时数据失败，请检查网络连接状况')
+                    }
+                });
+            }, 3000);
+        } else
+            $("#submit").attr("disabled", "disabled");
+
+
+    </script>
+
+{% endblock %}
+
+

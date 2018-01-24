@@ -1,0 +1,27 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div id="content-container" class="container">
+        <section class="admin-list">
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="admin-item">
+                        <div class="info">Has {{ article_cnt }} Notices</div>
+                        <div class="bottom">
+                            <a class="btn btn-primary" href="{{ url_for('admin.article') }}" data-id="3">{{ _('Notices Management') }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4">
+                    <div class="admin-item">
+                        <div class="info">Has {{ group_cnt }} Groups</div>
+                        <div class="bottom">
+                            <a class="btn btn-primary" href="{{ url_for('admin.group') }}" data-id="3">{{ _('Groups Management') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

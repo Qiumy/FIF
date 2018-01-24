@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{ _("Password reset email sent") }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if 'Successful' == message %}
+            <h2 class="text-center text-success" style="margin-bottom:1em"> Done Success ！ </h2>
+            <p class="text-center">
+                Reset Password Success！
+                </br>
+                </br>
+                </br>
+            </p>
+        {% else %}
+            <h2 class="text-center text-fail" style="margin-bottom:1em"> Reset Password Failed </h2>
+            <p class="text-center">
+                {{ _('Password reset failed somehow.  Please make sure your reset link is legal and not used already!') }}
+                Reset Password Failed. Please check whether the link is used or available.
+                </br>
+                </br>
+                </br>
+            </p>
+        {% endif %}
+
+    </div>
+{% endblock %}
+

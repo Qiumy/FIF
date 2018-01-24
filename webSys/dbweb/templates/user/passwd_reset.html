@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ _('Reset Password') }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="es-section login-section">
+  <div class="login-main">
+    <form novalidate="novalidate" data-widget-cid="widget-1" method="post">
+        <h2 class="text-center" style="margin-bottom:1em"> Reset Password </h2>
+
+		<div class="form-group mbl">
+			<label class="control-label required" for="email"> Please enter your email</label>
+            <input class="form-control input-lg" data-widget-cid="widget-2" id="email" name="email" placeholder=example@gmail.com type="text">
+            {% if message_email %}
+            <div class="messages col-sm-10"> <p class="text-danger"> {{ message_email }} </p> </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group mbl">
+	<div class="controls">
+            <button class="btn btn-primary btn-lg btn-block">
+                Submit
+            </button>
+	</div>
+        </div>
+
+    </form>
+  </div>
+  </div>
+</div>
+{% endblock %}
+

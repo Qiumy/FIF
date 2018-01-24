@@ -1,0 +1,126 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title list-post-title-in-topic">
+            {{ topic.title }}
+            {% if current_user.id == topic.user_id %}
+                <a class="btn btn-success pull-right" href="{{ url_for('group.topic_edit', tid=topic.id) }}">Edit</a>
+            {% endif %}
+        </h2>
+        <div class="list-meta color-gray">
+            <span class="create-time"><i class="es-icon es-icon-time"></i>{{ topic.updated_time | natural_time }}</span>
+            <span class="views-num"><i class="es-icon es-icon-visibility"></i>{{ topic.visit_num }}</span>
+            <span class="comment-num" id="title_post_num"><i
+                    class="es-icon es-icon-comment"></i>{{ topic.post_num }}</span>
+        </div>
+
+    </div>
+    <div class="panel-body clearfix" id="post-action">
+        <div class="editor-text">
+            {{ topic.content | markdown | safe }}
+        </div>
+    </div>
+</div>
+
+<!--Show the existing replies-->
+<div class="panel panel-default group-post-list">
+    <div class="panel-heading" id="post-num">
+        {% if topic.post_num %}
+            {{ topic.post_num }} {{ _('Reply') }}
+        {% else %}
+            <div class="alert alert-info">
+                {{ _('No replies yet!') }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if topic.post_num %}
+        <ul class="list-group" id="post-area">
+            {% for p in topic.posts %}
+                {% with index=loop.index, p=p %}
+                    {% include 'group/widget_post_detail.html' %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <ul class="list-group" id="post-area">
+        </ul>
+    {% endif %}
+</div>
+<!-- End existing replies -->
+
+<!-- Create new reply -->
+<div class="panel panel-default" id="create_reply">
+    <div class="panel-heading">
+        <p class="panel-title">
+            {{ _('Reply') }}
+        </p>
+    </div>
+    <div class="panel-body">
+        {% if current_user.is_authenticated %}
+            <form onsubmit="submit_post(); return false;">
+                <div class="form-group ">
+                    <label class="sr-only" for="content">{{ _('Content') }}</label>
+                    <textarea class="form-control" id="content" name="content" required
+                              style="margin: 0px -9px 0px 0px;width:100%;height: 120px;"></textarea>
+                </div>
+
+                <div class="form-submit text-right">
+                    <button class="btn btn-success" type="submit" id="submit">
+                        {{ _('Submit') }}
+                    </button>
+                </div>
+            </form>
+        {% else %}
+            <br>
+            <p class="text-center">{{ _('You haven\'t sign in yet, please') }}<a href="{{ url_for('user.signin', next=request.url) }}">{{ _('Sign in') }}</a>
+                或<a href="{{ url_for('user.reg', next=request.url) }}"> {{ _('Register') }}！</a></p>
+            <br>
+        {% endif %}
+    </div>
+</div>
+<!-- End create new reply-->
+
+{% block foot_ext %}
+    <script>
+        $(document).ready(function () {
+            $('#post-area').on(
+                    "click", ".reply-btn",
+                    function () {
+                        <!-- 找到当前回复按钮对应的用户, 也就是说对谁进行回复, 修复 issue 38 -->
+                        var pre_div = $(this).parent().prev();
+                        var at_user = $(pre_div).find("a.link-grey").text();
+                        $('#content').val($('#content').val() + '@' + at_user + ' ');
+                    }
+            );
+        });
+    </script>
+
+    <script>
+        function submit_post() {
+            var data = $("form").serialize();
+            $.ajax({
+                method: "post",
+                cache: false,
+                url: "{{ url_for('group.create_post', tid=topic.id) }}",
+                data: data,
+                success: function (post) {
+                    <!-- 第一条评论, 这里需要首先清除现有的提示信息 -->
+                    if (post.post_cnt == 1) {
+                        $("#post-area").empty().html(post.post_html);
+                    }
+                    else {
+                        $("#post-area").append(post.post_html);
+                    }
+                    $("#post-num").html(post.post_cnt + " {{ _('Reply') }}");
+                    $("#title_post_num").html("<i class='es-icon es-icon-topic'></i>" + post.post_cnt);
+                    $("#content").val("");
+                },
+                error: function (post_html) {
+                    alert('评论失败, 请稍后重试');
+                }
+            });
+        }
+    </script>
+
+{% endblock %}
+{# topic #}

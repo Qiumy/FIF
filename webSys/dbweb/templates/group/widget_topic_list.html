@@ -1,0 +1,52 @@
+<div class="panel-body">
+    {% if latest_topics %}
+        <ul class="media-list thread-list">
+            {% for t in latest_topics %}
+                <li class="media">
+                    <div class="media-left">
+                    <span class="reply-num">
+                        <strong> {{ t.post_num }} </strong> {{ _('Reply') }}
+                    </span>
+                    </div>
+                    <div class="media-body pts">
+                        <div class="media-heading">
+                            <a class="title gray-darker"
+                               href="{{ url_for('group.topic_view', tid=t.id) }}">{{ t.title }}</a>
+                        </div>
+
+                        <div class="metas">
+                            <a class="userImg js-user-card" href="{{ url_for('user.view', uid=t.user_id) }}">
+                                <img class="avatar-xxs" src="{{ t.user.avatar_url }} ">
+                            </a>
+
+                            <a class="link-dark pls"
+                               href="{{ url_for('user.view', uid=t.user_id) }}">{{ t.user.username }}</a>
+                            {{ t.created_time | natural_time }}{{ _('launched a topic') }}
+                            <span class="divider">•</span>
+                            <a class="gray-darker" href="{{ url_for('group.group_view', gid=t.group_id) }}"
+                               title="">{{ t.group.title }}</a>
+
+                            <span class="divider">•</span>
+                            {% if t.posts.all() %}
+                                <span>Last Reply</span>
+                                <a class="link-dark pls"
+                                   href="{{ url_for('user.view', uid=t.posts[-1].user_id) }}">{{ t.posts[-1].user.username }}</a>
+                            {% else %}
+                                <span>{{ _('No Reply') }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="panel-heading" id="post-num">
+            <div class="alert alert-info">
+                {{ _('No topics') }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+
+{# latest_topics #}

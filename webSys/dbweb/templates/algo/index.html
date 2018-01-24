@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-left:18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('algo.index') }}">{{ _('Algorithm Lab') }}</a></li>
+            <li id="strategy-name">{{ _('Strategy List') }}</li>
+        </ol>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="popover-markup inline-block" role="button">
+                    <a href="#" class="trigger btn btn-default" id="new-strategy">{{ _('New Strategy') }}</a>
+                    <div class="head hide">{{ _('New Strategy') }}</div>
+                    <div class="content hide">
+                        <form action="{{ url_for('algo.strategy_new') }}" method="POST" onsubmit="validateForm()">
+                            <div class="form-group">
+                                <label>{{ _('Name') }}</label>
+                                <input type="text" class="form-control" placeholder="{{ _('Strategy Name') }}"
+                                       name="name">
+                            </div>
+                            <button type="submit" class="btn btn-default">{{ _('Create') }}</button>
+
+                        </form>
+                    </div>
+                </div>
+                <button class="btn btn-info" id="batch-delete">{{ _('Delete') }}</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>{{ _('Strategy Name') }}</th>
+                        <th>{{ _('Strategy Note') }}</th>
+                        <th>{{ _('Last Modified Time') }}</th>
+                        <th>{{ _('Operator') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if strategy %}
+                        {% for s in strategy %}
+                            <tr data-id="{{ s.id }}">
+                                <td><input type="checkbox" name="select"></td>
+                                <td><a href="{{ url_for('algo.strategy_edit',sid=s.id) }}">{{ s.name }}</a></td>
+                                <td>{{ s.note }}</td>
+                                <td>{{ s.modified_time }}</td>
+                                <td><a href="javascript:void(0)" name="del-btn">{{ _('Delete') }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr class="text-center">
+                            <td colspan="5">{{ _('Have no Strategy Yet!') }}</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        $(function () {
+            $('#new-strategy').popover({
+                html: true,
+                title: function () {
+                    return $(this).parent().find('.head').html();
+                },
+                content: function () {
+                    return $(this).parent().find('.content').html();
+                }
+            });
+
+            $("input[type=checkbox]").prop("checked", false);
+            $('#select-all').click(function () {
+                if ($(this).prop("checked")) {
+                    $("input[name=select]").prop("checked", true);
+                }
+                else {
+                    $("input[name=select]").prop("checked", false);
+                }
+            });
+
+            $("tbody").find("a[name=del-btn]").each(function () {
+                $(this).click(function () {
+                    console.log("click!");;
+                    var obj = this;
+                    $.ajax({
+                        type: "post",
+                        url: "{{ url_for('algo.strategy_delete') }}",
+                        data: {id: $(obj).parent().parent().data('id')},
+                        success: function (data) {
+                            $(obj).parent().parent().remove();
+                            alert_modal("Success Delete!");
+                        }
+                    });
+                });
+            });
+
+            $("#batch-delete").click(function () {
+               var array = [];
+               $("input[name=select]").each(function () {
+                   if($(this).prop("checked")){
+                       array.push($(this).parent().parent().data("id"));
+                   }
+               });
+
+               $.ajax({
+                    url: "{{ url_for('algo.strategy_batch_delete') }}",
+                    type: "post",
+                    data: {
+                        id: array
+                    },
+                    success: function (data) {
+                        if(data["status"] === "success") {
+                            location.reload();
+                        }
+                    }
+                })
+            });
+
+
+        });
+
+        function validateForm() {
+            var x = $('input[name=title]').value();
+            console.log(x);
+            if (x == null || x == "") {
+                alert("Please enter topic");
+                return false;
+            }
+        }
+    </script>
+
+{% endblock %}

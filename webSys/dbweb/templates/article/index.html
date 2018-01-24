@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('article.index') }}">Notices</a></li>
+        </ol>
+        {% if article_list %}
+            <div class="article-list-body row">
+                <div class="col-md-10 col-offset-1">
+                    <section class="es-section">
+                        <div class="article-list">
+                            {% for article in article_list %}
+                                <article class="article-item">
+                                    <div class="article-metas clearfix">
+                                        <div class="pull-left">
+                                            <div class="date">
+                                                <div class="day">{{ article.visit_num }}</div>
+                                                <div class="month">hits</div>
+                                            </div>
+                                        </div>
+                                        <div class="metas-body">
+                                            <h2 class="title">
+                                                <a class="link-dark"
+                                                   href="{{ url_for('article.detail', article_id=article.id) }}">{{ article.title | truncate(30) }}</a>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="content">{{ article.content | markdown | safe | truncate(100) }} </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+        {% else %}
+            <h2>{{ _('Have No Notices Yet!') }}</h2>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{# article #}

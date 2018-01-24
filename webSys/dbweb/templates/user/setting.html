@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" id="content-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidenav" id="setting-choose">
+                    <ul class="list-group">
+                        <li class="list-group-heading">Settings</li>
+
+                        <li class="list-group-item active">
+                            <a href="{{ url_for('user.setting_info') }}">
+                                <i class="glyphicon glyphicon-lock"></i> Personal Information</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('user.setting_password') }}">
+                                <i class="glyphicon glyphicon-lock"></i> Modify Password</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('user.setting_avatar') }}">
+                                <i class="glyphicon glyphicon-picture"></i> Set avatar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-9" id="setting-content">
+                {% include 'user/ajax_setting_info.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        $(document).ready(function () {
+            $("#setting-choose li a").click(function () {
+                $("#setting-choose li").removeClass('active');
+                $(this).parent().addClass('active');
+
+                $.ajax({
+                    url: this.href,
+                    dataType: "json",
+                    contentType: 'application/json;charset=UTF-8',
+                    success: function (data) {
+                        $("#setting-content").empty().append(data.content);
+                    },
+                    error: function () {
+                        $("#setting-content").empty().append("<h2 style='text-align: center'> There's something wrong, Please try later! </h2>");
+                    },
+                });
+                return false;
+            });
+        });
+
+        $("#setting-content").on(
+                "submit",
+                "form.form-horizontal",
+                function () {
+                    <!-- 提交当前表单, 更新提交结果 -->
+                    var data = new FormData($(this)[0]);
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        method: "post",
+                        data: data,
+                        dataType: "json",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            $("#setting-content").empty().append(data.content);
+                            $("#modal-info").modal();
+                        },
+                        error: function () {
+                            $("#setting-content").empty().append("<h2 style='text-align: center'> There's something wrong, Please try later! </h2>");
+                        }
+                    });
+                    return false;
+                });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+{% endblock %}

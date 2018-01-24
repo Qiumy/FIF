@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('category.all') }}">{{ _('All') }}</a></li>
+            <li class="active"><a
+                    href="{{ url_for('category.topic_view', tid=topic.id) }}">{{ topic.title | truncate(20) }}</a></li>
+        </ol>
+        <div class="row">
+            <div class="col-md-9 group-main">
+                {% include 'category/widget_topic_detail.html' %}
+            </div>
+
+            <div class="col-md-3 group-side">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ _('Author') }}</div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left prm">
+                                <a class="" href="{{ url_for('user.view', uid=topic.user_id) }}">
+                                    <img src="{{ topic.user.avatar_url }}" class="avatar-md">
+                                </a>
+                            </div>
+                            <div class="media-body ptm list-meta">
+                                <div>
+                                    <i class="es-icon es-icon-person"></i>
+                                    <a class="link-dark"
+                                       href="{{ url_for('user.view', uid=topic.user_id) }}">{{ topic.user.username }}</a>
+                                </div>
+                                <span class="text-sm gray-medium">
+                                    <i class="es-icon es-icon-topic"></i>{{ topic.user.topics.all() | length }} {{ _('Topics') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{# topic #}

@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <ol class="breadcrumb breadcrumb-o" style="margin-left:18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('algo.index') }}">{{ _('Algorithm Lab') }}</a></li>
+            <li id="strategy-name">{{ _('My Strategy') }}</li>
+        </ol>
+        <div class="col-lg-6 col-md-12 col-sm-12" id="widget-code-editor">
+            <div class="alert alert-success hide">
+                <a href="#" class="close" data-dismiss="alert">
+                    &times;
+                </a>
+            </div>
+            {% include 'algo/widget_code_edit.html' %}
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12" id="widget-run-result">
+            {% include 'algo/widget_run_result.html' %}
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12" id="widget-run-log">
+            {% include 'algo/widget_log_result.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer_ext %}
+    {# 代码编辑   #}
+    <script src="//cdn.bootcss.com/ace/1.2.6/ace.js"></script>
+    <script src="//cdn.bootcss.com/ace/1.2.6/theme-github.js"></script>
+
+    <script>
+        var editor = ace.edit("code-editor");
+        editor.setOptions({
+            wrap: true,
+            highlightActiveLine: true,
+            showPrintMargin: false,
+            theme: 'ace/theme/github',
+            mode: 'ace/mode/python'
+        });
+        editor.$blockScrolling = Infinity;
+
+        var saveBtn = $('#code-save');
+        saveBtn.click(function () {
+            console.log("click!!!!!!!!!!!!!");
+            $.ajax({
+                url: "{{ url_for('algo.strategy_update', sid=strategy.id) }}",
+                type: "post",
+                data: {
+                    name: $("input[name=title]").val(),
+                    code: editor.getValue()
+                },
+                dataType: "json",
+                success: function (data) {
+                    $('.alert').removeClass("hide").append("Save done!");
+                    setTimeout(function () {
+                        $('.alert').alert('close');
+                    }, 1000)
+                },
+                error: function () {
+                    $("#widget-code-editor").empty().append("<h2 style='text-align: center'> There's something wrong, Please try later! </h2>");
+                }
+            });
+        });
+
+        var result_data = new Array();
+
+        Date.prototype.Format = function (fmt) {
+            var o = {
+                "y+": this.getFullYear(),
+                "M+": this.getMonth() + 1,                 //月份
+                "d+": this.getDate(),                    //日
+                "h+": this.getHours(),                   //小时
+                "m+": this.getMinutes(),                 //分
+                "s+": this.getSeconds(),                 //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S+": this.getMilliseconds()             //毫秒
+            };
+            for (var k in o) {
+                if (new RegExp("(" + k + ")").test(fmt)) {
+                    if (k == "y+") {
+                        fmt = fmt.replace(RegExp.$1, ("" + o[k]).substr(4 - RegExp.$1.length));
+                    }
+                    else if (k == "S+") {
+                        var lens = RegExp.$1.length;
+                        lens = lens == 1 ? 3 : lens;
+                        fmt = fmt.replace(RegExp.$1, ("00" + o[k]).substr(("" + o[k]).length - 1, lens));
+                    }
+                    else {
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                    }
+                }
+            }
+            return fmt;
+        };
+
+        function formatterData(strData) {
+            var rawData = JSON.parse(strData);
+            var dateData = [];
+            var values = [];
+            for (var date in rawData) {
+                dateData.push(new Date(parseInt(date)).Format("yyyy/MM/dd"));
+                values.push(rawData[date].toFixed(5) * 100);
+            }
+            return {
+                dateData: dateData,
+                values: values
+            };
+        }
+
+        function formatterIndicator(sData) {
+            var indicatorHtml = '';
+            var indicators = ['total_returns','annualized_returns','benchmark_total_returns', 'benchmark_annualized_returns','alpha','beta','sharpe','sortino','information_ratio', 'volatility', 'max_drawdown', 'tracking_error','downside_risk']
+            for(var i=0; i<indicators.length; i++){
+                var indicatorItem = '<div class="indicator-item"><span class="ind-name">'+indicators[i]+':</span><span>' + sData[indicators[i]] + '</span></div>';
+                indicatorHtml += indicatorItem;
+            }
+            return indicatorHtml;
+        }
+
+        var portfolioData = new Array();
+        var benchmarkData = new Array();
+
+        var runBtn = $('#code-run');
+        var myChart = echarts.init(document.getElementById('chart-show'));
+        var indicatorDiv = document.getElementById('indicator-show');
+
+        var startDate = $('#start-date');
+        var endDate = $('#end-date');
+
+        runBtn.click(function () {
+            saveBtn.trigger("click");
+            $.ajax({
+                url: "{{ url_for('algo.strategy_run', sid=strategy.id) }}",
+                type: "post",
+                data:{"start-date":startDate.val(), "end-date":endDate.val()},
+                dataType: "json",
+                success: function (data) {
+                    result_data = data['data_result'];
+                    portfolioData = formatterData(result_data['portfolio']);
+                    benchmarkData = formatterData(result_data['benchmark']);
+
+                    option = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['benchmark', 'mine']
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: portfolioData.dateData,
+                            boundaryGap: false,
+                        },
+                        yAxis: {
+                            type: 'value',
+                            min: Math.min(benchmarkData.values, portfolioData.values),
+                        },
+                        dataZoom: [
+                            {
+                                type: 'inside',
+                                start: 0,
+                                end: 100,
+                            },
+                            {
+                                show: true,
+                                type: 'slider',
+                            }
+                        ],
+                        series: [
+                            {
+                                name: 'benchmark',
+                                type: 'line',
+                                data: benchmarkData.values,
+                            },
+                            {
+                                name: 'mine',
+                                type: 'line',
+                                data: portfolioData.values,
+                            }
+                        ]
+                    };
+
+                    myChart.clear();
+                    myChart.setOption(option);
+
+                    var indicatorHtml = formatterIndicator(result_data['summary']);
+
+                    console.log(result_data['summary']);
+                    indicatorDiv.innerHTML = indicatorHtml;
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+
+    </script>
+
+
+{% endblock %}

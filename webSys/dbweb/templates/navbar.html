@@ -1,0 +1,62 @@
+<nav class="content-header navbar">
+    <div class="navbar-header">
+        <a href="{{ url_for('main.index') }}" class="navbar-brand">
+            <img src="{{ url_for('static', filename='images/logo.png') }}">
+        </a>
+    </div>
+
+    <nav class="collapse navbar-collapse">
+        <ul class="nav navbar-nav clearfix hidden-xs" id="nav">
+
+            <li>
+                <a href="/stock/"> {{ _('Stocks') }}</a>
+            </li>
+            <li>
+                <a href="/category/all/">{{ _('Forum') }}</a>
+            </li>
+            <li>
+                <a href="/algo/">{{ _('Algorithm Lab') }}</a>
+            </li>
+            <li>
+                <a href="/article/">{{ _('Notices') }}</a>
+            </li>
+            {% if current_user.is_authenticated %}
+                <li>
+                    <a href="{{ url_for('user.view', uid=current_user.id) }}">{{ _('Account') }}</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="navbar-user left ">
+            <ul class="nav user-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="user-avatar-li nav-hover">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <img class="avatar-xs" src="{{ current_user.avatar_url }}">
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" class="dropdown-header">{{ current_user.username }}</li>
+                            <li><a href="{{ url_for('user.view', uid=current_user.id) }}"><i
+                                    class="es-icon es-icon-person"></i>{{ _('Account') }}</a>
+                            </li>
+                            <li><a href="{{ url_for('user.setting') }}"><i
+                                    class="es-icon es-icon-setting"></i>{{ _('Setting') }}</a></li>
+                            <li><a href="{{ url_for('user.signout') }}"><i
+                                    class="es-icon es-icon-power"></i>{{ _('Logout') }}</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="hidden-xs"><a href="{{ url_for('user.signin') }}">{{ _('Sign in') }}</a></li>
+                    <li class="hidden-xs"><a href="{{ url_for('user.reg') }}">{{ _('Sign up') }}</a></li>
+                {% endif %}
+            </ul>
+            <form class="navbar-form navbar-right hidden-xs hidden-sm" action="/search" method="get">
+                <div class="form-group">
+                    <input class="form-control js-search" name="q" placeholder="stock code">
+                    <button class="button es-icon es-icon-search"></button>
+                </div>
+            </form>
+        </div>
+
+    </nav>
+</nav>

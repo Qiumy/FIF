@@ -1,0 +1,13 @@
+<div class="panel">
+    <div class="panel-heading toolbar">
+        <input type="text" class="form-inline" name="title" value="{{ strategy.name }}" required>
+
+        <label>start date<input type="date" value="2016-06-01" id="start-date"></label>
+        <label>end date<input type="date" value="2016-12-01" id="end-date"></label>
+        <button>{{ _('copy to new') }}</button>
+        <button id="code-save">{{ _('save') }}</button>
+        <button>{{ _('options') }}</button>
+
+    </div>
+    <div class="panel-body" id="code-editor">{{ strategy.code | safe}}</div>
+</div>

@@ -1,0 +1,29 @@
+<div class="panel panel-default panel-col">
+    <div class="panel-heading">{{ _('Avatar') }}</div>
+
+    <div class="panel-body">
+        <form class="form-horizontal" action="{{ url_for('user.setting_avatar') }}" method="post"
+              enctype="multipart/form-data">
+            <div class="form-group clearfix">
+                <div class="col-md-offset-2 col-md-8 controls">
+                    <img src="{{ current_user.avatar_url }}">
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-offset-2 col-md-8 controls">
+                    <input name="file" accept="image/bmp,image/jpeg,image/png" type="file">
+                    <p class="help-block">You can upload jpg, bmp, png</p>
+                </div>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="col-md-offset-2 col-md-8 controls">
+                    <div class="col-md-7 col-md-offset-8">
+                        <button type="submit" class="btn btn-primary">save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

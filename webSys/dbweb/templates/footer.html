@@ -1,0 +1,24 @@
+<footer class="content-footer">
+    <div class="copyright">
+        <div class="container">
+{#            Powered by <a href="https://qiumy.github.io" target="_blank">Qiumy</a>#}
+            <span id="sp_time"></span>
+        </div>
+    </div>
+</footer>
+
+{% block footer_ext %}
+    <script type="text/javascript">
+        setInterval(function () {
+            var dd = new Date();
+            var y = dd.getUTCFullYear();
+            var m = dd.getUTCMonth() + 1;
+            var d = dd.getUTCDate();
+            var h = dd.getUTCHours();
+            var mi = dd.getUTCMinutes();
+            var s = dd.getUTCSeconds();
+            var str = y + "-" + m + "-" + d + "&nbsp;&nbsp;" + h + ":" + mi + ":" + s;
+            document.getElementById("sp_time").innerHTML = str;
+        }, 1000);
+    </script>
+{% endblock %}

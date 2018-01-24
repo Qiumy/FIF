@@ -1,0 +1,19 @@
+<div class="col-md-3 group-side">
+    {% if current_user.is_authenticated %}
+        <div class="mbm" id="new-topic">
+            {% if current_user.id %}
+                <a href="{{ url_for('category.topic_new') }}"
+                   class="btn btn-success btn-xlg btn-block" role="button">
+                    <i class="es-icon es-icon-comment mrs text-xlg"></i>{{ _('New Topic') }}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+    <form class="mbl" action="/category/search_group" method="get">
+        <div class="search-with-btn">
+            <input type="hidden" name="_csrf_token" value="061532c03e85456ed4a0dcc805896ed9444bce33">
+            <input type="text" class="form-control" placeholder="Topics Search" name="keyWord" value="">
+            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+    </form>
+</div>

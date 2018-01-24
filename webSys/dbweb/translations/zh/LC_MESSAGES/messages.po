@@ -1,0 +1,546 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-05-15 15:08+0800\n"
+"PO-Revision-Date: 2017-05-15 11:03+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: admin/system_views.py:32
+msgid "Create Article"
+msgstr "创建公告"
+
+#: admin/system_views.py:82
+msgid "Create Group"
+msgstr "创建专栏"
+
+#: admin/views.py:17
+msgid "Admin Auth"
+msgstr "管理员认证"
+
+#: admin/views.py:29 user/views.py:38
+msgid "Invalid username or password."
+msgstr "无效的用户名或密码"
+
+#: templates/navbar.html:12
+msgid "Stocks"
+msgstr "股票"
+
+#: templates/navbar.html:15
+msgid "Forum"
+msgstr "论坛"
+
+#: templates/algo/index.html:11 templates/navbar.html:18
+msgid "Algorithm Lab"
+msgstr "策略实验室"
+
+#: templates/article/detail.html:8 templates/main/index.html:190
+#: templates/navbar.html:21
+msgid "Notices"
+msgstr "公告"
+
+#: templates/navbar.html:25 templates/navbar.html:40
+msgid "Account"
+msgstr "账户"
+
+#: templates/navbar.html:43
+msgid "Setting"
+msgstr "设置"
+
+#: templates/navbar.html:45
+msgid "Logout"
+msgstr "登出"
+
+#: templates/admin/auth.html:13 templates/admin/auth.html:33
+#: templates/group/group.html:84 templates/group/widget_topic_detail.html:75
+#: templates/navbar.html:49 user/views.py:27
+msgid "Sign in"
+msgstr "用户登录"
+
+#: templates/group/group.html:85 templates/navbar.html:50
+msgid "Sign up"
+msgstr "用户注册"
+
+#: templates/admin/auth.html:13 templates/admin/navbar.html:6
+msgid "Adminstrator"
+msgstr "管理员"
+
+#: templates/admin/auth.html:18
+msgid "Email"
+msgstr "邮件地址"
+
+#: templates/admin/auth.html:20 templates/user/signin.html:16
+msgid "Email Address"
+msgstr "邮件地址"
+
+#: templates/admin/auth.html:23 templates/admin/auth.html:26
+#: templates/user/signin.html:25
+msgid "Password"
+msgstr "密码"
+
+#: templates/admin/footer.html:4
+msgid "SYSU SDCS"
+msgstr ""
+
+#: templates/admin/header.html:7
+msgid "dbweb"
+msgstr ""
+
+#: templates/admin/navbar.html:14 templates/admin/system.html:11
+msgid "Notices Management"
+msgstr "公告管理"
+
+#: templates/admin/navbar.html:17 templates/admin/system.html:20
+msgid "Groups Management"
+msgstr "专栏管理"
+
+#: templates/admin/navbar.html:25
+msgid "Sign out"
+msgstr "登出"
+
+#: templates/admin/group/create.html:14 templates/admin/group/edit.html:14
+msgid "Groups Name"
+msgstr "专栏名称"
+
+#: templates/admin/group/create.html:20 templates/admin/group/edit.html:20
+msgid "Group Logo"
+msgstr "专栏 Logo"
+
+#: templates/admin/group/create.html:23 templates/admin/group/edit.html:24
+msgid "You can upload JPG, BMP or PNG"
+msgstr "你可以上传JPG， BMP或PNG"
+
+#: templates/admin/group/create.html:28 templates/admin/group/edit.html:29
+msgid "Group Introduction"
+msgstr "专栏介绍"
+
+#: templates/admin/group/index.html:10
+msgid "New Group"
+msgstr "新建专栏"
+
+#: templates/admin/group/index.html:20
+msgid "Group Name"
+msgstr "专栏名称"
+
+#: templates/admin/group/index.html:21
+msgid "Topic Num"
+msgstr "话题数"
+
+#: templates/admin/group/index.html:22
+msgid "More"
+msgstr "更多"
+
+#: templates/admin/group/index.html:33
+msgid "Preview"
+msgstr "预览"
+
+#: templates/admin/group/index.html:35
+msgid "Delete"
+msgstr "删除"
+
+#: templates/algo/index.html:10 templates/article/detail.html:7
+#: templates/article/index.html:6 templates/group/group.html:5
+#: templates/group/group_all.html:7 templates/group/index.html:6
+#: templates/group/topic_detail.html:5 templates/group/topic_edit.html:11
+#: templates/group/topic_new.html:11 templates/stock/index.html:5
+msgid "Index"
+msgstr "首页"
+
+#: templates/article/index.html:39
+msgid "Have No Notices Yet!"
+msgstr "暂时还没有公告！"
+
+#: templates/group/group.html:6 templates/group/topic_detail.html:6
+msgid "Groups"
+msgstr "专栏"
+
+#: templates/group/group.html:25 templates/group/topic_detail.html:33
+msgid "Topics"
+msgstr "话题"
+
+#: templates/group/group.html:26
+msgid "Created Time"
+msgstr "创建时间"
+
+#: templates/group/group.html:37
+msgid "Groups Introduction"
+msgstr "专栏介绍"
+
+#: templates/group/group.html:46
+msgid "Hot Topics"
+msgstr "热门话题"
+
+#: templates/group/group.html:75
+msgid "Hello"
+msgstr "你好"
+
+#: templates/group/group_all.html:8 templates/group/group_all.html:16
+msgid "All Groups"
+msgstr "所有专栏"
+
+#: templates/group/group_all.html:9
+msgid "All Topics"
+msgstr "所有话题"
+
+#: templates/group/index.html:13
+msgid "Hot Groups"
+msgstr "热门专栏"
+
+#: templates/group/index.html:22
+msgid "Latest Topics"
+msgstr "最新话题"
+
+#: templates/group/topic_detail.html:18
+msgid "Author"
+msgstr "作者"
+
+#: templates/group/topic_edit.html:12 templates/group/topic_new.html:12
+msgid "Group"
+msgstr "社区"
+
+#: templates/group/topic_edit.html:26 templates/group/topic_new.html:24
+msgid "Title"
+msgstr "标题"
+
+#: templates/group/topic_edit.html:32 templates/group/topic_new.html:29
+#: templates/group/widget_topic_detail.html:62
+msgid "Content"
+msgstr "内容"
+
+#: templates/group/widget_post_detail.html:20
+#: templates/group/widget_topic_detail.html:28
+#: templates/group/widget_topic_detail.html:55
+#: templates/group/widget_topic_detail.html:114
+#: templates/group/widget_topic_list.html:8
+msgid "Reply"
+msgstr "回复"
+
+#: templates/group/widget_topic_detail.html:31
+msgid "No replies yet!"
+msgstr "暂时还没有回复"
+
+#: templates/group/widget_topic_detail.html:69
+msgid "Submit"
+msgstr "提交"
+
+#: templates/group/widget_topic_detail.html:75
+msgid "You haven't sign in yet, please"
+msgstr "你还没有登录，请"
+
+#: templates/group/widget_topic_detail.html:76
+msgid "Register"
+msgstr "注册"
+
+#: templates/group/widget_topic_list.html:24
+msgid "launched a topic"
+msgstr "发布话题"
+
+#: templates/group/widget_topic_list.html:35
+msgid "No Reply"
+msgstr "没有回复"
+
+#: templates/group/widget_topic_list.html:45
+msgid "No topics"
+msgstr "没有话题"
+
+#: templates/main/index.html:43
+msgid "Previous"
+msgstr "前一页"
+
+#: templates/main/index.html:47
+msgid "Next"
+msgstr "后一页"
+
+#: templates/main/index.html:56
+msgid "Recommend Stocks"
+msgstr "推荐股票"
+
+#: templates/main/index.html:59
+msgid "Simulated investment"
+msgstr "模拟投资"
+
+#: templates/main/index.html:65
+msgid "American"
+msgstr "美股"
+
+#: templates/main/index.html:67
+msgid "China"
+msgstr ""
+
+#: templates/main/index.html:107
+msgid "MORE"
+msgstr "更多"
+
+#: templates/main/index.html:180
+msgid "Informations"
+msgstr "资讯"
+
+#: templates/main/index.html:183
+msgid "Pay attention to industry trends & Grasp the investment opportunities"
+msgstr ""
+
+#: templates/main/index.html:209
+msgid "The Latest News"
+msgstr "最新新闻"
+
+#: templates/stock/index.html:6
+msgid "All The Stocks"
+msgstr "所有股票"
+
+#: templates/stock/stock.html:22
+msgid "Stock Code"
+msgstr "股票代码"
+
+#: templates/stock/stock.html:32 templates/stock/trade_buy.html:52
+msgid "Predicted Increase Percent"
+msgstr "预测涨幅"
+
+#: templates/stock/stock.html:46 templates/stock/trade_buy.html:64
+msgid "Relative News"
+msgstr "相关新闻"
+
+#: templates/stock/stock.html:68
+msgid "Buy"
+msgstr "购入"
+
+#: templates/stock/trade_buy.html:28
+msgid "Trade Operator"
+msgstr "交易操作"
+
+#: templates/stock/trade_buy.html:32 templates/stock/trade_buy.html:84
+msgid "Buy In"
+msgstr "购入"
+
+#: templates/stock/trade_buy.html:37
+msgid "Sell Out"
+msgstr "卖出"
+
+#: templates/stock/trade_buy.html:42
+msgid "Trade List"
+msgstr "交易清单"
+
+#: templates/stock/trade_buy.html:87
+msgid "Now is not trade time!"
+msgstr "现在不是交易时间"
+
+#: templates/stock/trade_buy.html:94
+msgid "Current Balance"
+msgstr ""
+
+#: templates/stock/trade_buy.html:104
+msgid "Real-time Stock Price"
+msgstr "实时价格"
+
+#: templates/stock/trade_buy.html:115
+msgid "Hold Shares"
+msgstr "持有股票"
+
+#: templates/stock/trade_buy.html:118
+msgid "Volume"
+msgstr "成交量"
+
+#: templates/stock/trade_buy.html:124
+msgid "Buy in"
+msgstr "购入"
+
+#: templates/stock/trade_buy.html:134
+msgid "Commit"
+msgstr "提交"
+
+#: templates/user/ajax_setting_avatar.html:2
+msgid "Avatar"
+msgstr "头像"
+
+#: templates/user/passwd_reset.html:3
+msgid "Reset Password"
+msgstr "重置密码"
+
+#: templates/user/passwd_reset_done.html:2
+msgid "Password reset email sent"
+msgstr "重置密码邮件已发送"
+
+#: templates/user/passwd_reset_done.html:17
+msgid ""
+"Password reset failed somehow.  Please make sure your reset link is legal"
+" and not used already!"
+msgstr ""
+
+#: templates/user/passwd_reset_email.html:1
+#: templates/user/register_email.html:1
+msgid "Dear"
+msgstr "亲爱的"
+
+#: templates/user/passwd_reset_email.html:2
+msgid "To reset your password"
+msgstr "重置密码"
+
+#: templates/user/passwd_reset_email.html:2
+#: templates/user/register_email.html:2
+msgid "click here."
+msgstr "点击这里"
+
+#: templates/user/passwd_reset_email.html:3
+#: templates/user/register_email.html:3
+msgid ""
+"Alternatively, you can paste the following link in your browser's address"
+" bar:"
+msgstr ""
+
+#: templates/user/passwd_reset_email.html:5
+#: templates/user/register_email.html:5
+msgid "If you have not requested a password reset simply ignore this message."
+msgstr ""
+
+#: templates/user/passwd_reset_email.html:6
+#: templates/user/register_email.html:6
+msgid ""
+"Sincerely, \n"
+" The xianyu Team"
+msgstr ""
+
+#: templates/user/passwd_reset_email.html:7
+#: templates/user/register_email.html:7
+msgid "Note: replies to this email address are not monitored."
+msgstr ""
+
+#: templates/user/register_email.html:2
+msgid "To confirm your email"
+msgstr "邮件地址验证"
+
+#: user/views.py:54 user/views.py:88
+msgid "Register Account"
+msgstr "用户注册"
+
+#: user/views.py:66
+msgid "Username can not be empty."
+msgstr "用户名不能为空"
+
+#: user/views.py:68
+msgid "Username can only contain letters digits and underscore."
+msgstr "用户名只能包含数字，字母及下划线"
+
+#: user/views.py:70
+msgid "Username already exists."
+msgstr "用户名已存在"
+
+#: user/views.py:74 user/views.py:147 user/views.py:225
+msgid "Email address can not be empty."
+msgstr "邮件地址不能为空"
+
+#: user/views.py:76 user/views.py:149 user/views.py:227
+msgid "Email address is invalid."
+msgstr "邮件地址无效"
+
+#: user/views.py:78
+msgid "Email already exists."
+msgstr "该邮件地址已经注册"
+
+#: user/views.py:82 user/views.py:182 user/views.py:298
+msgid "Passwords don't match."
+msgstr "密码不一致"
+
+#: user/views.py:84 user/views.py:184 user/views.py:300
+msgid "Passwords can not be empty."
+msgstr "密码不能为空"
+
+#: user/views.py:151
+msgid "The email has not be registered"
+msgstr "该邮件地址还没注册"
+
+#: user/views.py:253 util/upload_file.py:17
+msgid "No selected file"
+msgstr "未选择文件"
+
+#: user/views.py:270
+msgid "Update avatar done!"
+msgstr "已更新头像"
+
+#: user/views.py:274 util/upload_file.py:32
+msgid "Invalid file"
+msgstr "无效文件格式"
+
+#: util/time_process.py:24
+msgid "year"
+msgstr ""
+
+#: util/time_process.py:24
+msgid "years"
+msgstr ""
+
+#: util/time_process.py:25
+msgid "month"
+msgstr ""
+
+#: util/time_process.py:25
+msgid "months"
+msgstr ""
+
+#: util/time_process.py:26
+msgid "week"
+msgstr ""
+
+#: util/time_process.py:26
+msgid "weeks"
+msgstr ""
+
+#: util/time_process.py:27
+msgid "day"
+msgstr ""
+
+#: util/time_process.py:27
+msgid "days"
+msgstr ""
+
+#: util/time_process.py:28
+msgid "hour"
+msgstr ""
+
+#: util/time_process.py:28
+msgid "hours"
+msgstr ""
+
+#: util/time_process.py:29
+msgid "minute"
+msgstr ""
+
+#: util/time_process.py:29
+msgid "minutes"
+msgstr ""
+
+#: util/time_process.py:30
+msgid "second"
+msgstr ""
+
+#: util/time_process.py:30
+msgid "seconds"
+msgstr ""
+
+#: util/time_process.py:35
+msgid " ago"
+msgstr ""
+
+#: util/time_process.py:37
+msgid "Just now"
+msgstr ""
+
+#: util/user_manage.py:24
+msgid "Student"
+msgstr ""
+
+#: util/user_manage.py:26
+msgid "Administrator"
+msgstr "管理员"
+
+

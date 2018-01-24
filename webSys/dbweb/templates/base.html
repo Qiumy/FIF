@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% include 'header.html' %}
+</head>
+
+{% block header_ext %}
+{% endblock %}
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="content-wrap">
+    <!-- content in this page -->
+    {% block content %}
+    {% endblock %}
+</div>
+
+<div class="modal fade in" id="modal-alert" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-alert">
+            <button class="close modal-alert" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+{% block footer_ext %}{% endblock %}
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

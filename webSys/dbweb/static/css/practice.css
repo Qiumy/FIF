@@ -1,0 +1,197 @@
+/* 试题中心页面 CSS */
+.practice-list {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.practice-list .practice-item {
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 10px;
+    padding: 30px;
+    height: 450px;
+    margin-bottom: 20px;
+}
+
+.practice-list .practice-item .title {
+    font-size: 18px;
+    color: #3e4450;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.practice-list .practice-item .info {
+    color: #98a2b5;
+    line-height: 20px;
+    height: 40px;
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+
+.practice-list .practice-item .bottom {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.special-project {
+    position: relative;
+}
+
+.special-project .special-project-sheet {
+    position: absolute;
+    width: 268px;
+    top: 0;
+    right: 0;
+    color: #3e4450;
+}
+
+.special-project .special-project-body {
+    margin-right: 278px;
+}
+
+/* 选择题页面 */
+
+.table-responsive {
+    overflow-y: hidden;
+}
+
+.table-responsive > .table {
+    min-width: 850px;
+}
+
+.table {
+    background-color: #fff;
+}
+
+.table > thead > tr > th {
+    color: #98a2b5;
+    font-size: 14px;
+    font-weight: bolder;
+    padding: 25px 15px;
+    border-bottom: 0;
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.pll {
+    padding-left: 20px !important;
+}
+
+.mll {
+    margin-left: 20px !important;
+}
+
+.subject-title-list {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.subject-title-list li {
+    position: relative;
+    line-height: 35px;
+    padding: 22px 0px;
+}
+
+.table > tbody > tr > td {
+    color: #3e4450;
+    padding: 22px 15px;
+    vertical-align: middle;
+    text-align: center;
+    border-top: none;
+    border-bottom: 1px solid #e6e6e6;
+    line-height: 35px;
+}
+
+.subject-title-list li .item {
+    float: left;
+    position: relative;
+    z-index: 1;
+    padding: 0px 15px;
+}
+
+.subject-title-list li .circle.circle-lg {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.subject-title-list li .circle {
+    border: none;
+    width: 14px !important;
+    height: 14px !important;
+    display: inline-block;
+    background-color: #3083eb;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.circle.circle-lg {
+    height: 30px;
+    width: 30px;
+    line-height: 26px;
+}
+
+.circle {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #c9ced8;
+    line-height: 18px;
+    text-align: center;
+    font-size: 14px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    color: #6c7484;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.table > tbody > tr > td {
+    color: #3e4450;
+    padding: 22px 15px;
+    vertical-align: middle;
+    text-align: center;
+    border-top: none;
+    border-bottom: 1px solid #e6e6e6;
+    line-height: 35px;
+}
+
+.table.table-subject-title td[class*="col-"],
+.table.table-subject-title th[class*="col-"]{
+    float: left;
+}
+
+.table.table-subject-title .item-first {
+    text-align: left;
+    padding-left: 35px;
+}
+
+.table.table-subject-title li {
+    list-style-type: none;
+}
+
+.subject-title-list li .operate {
+    display: inline-block;
+    color: #3083eb;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 10px;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* 选择题展示页面 */
+.special-project .special-project-sheet {
+    position: absolute;
+    width: 268px;
+    top: 0;
+    right: 0;
+    color: #3e4450;
+}
+
+

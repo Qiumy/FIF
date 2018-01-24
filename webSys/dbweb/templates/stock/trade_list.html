@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <script src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="content-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidenav" id="setting-choose">
+                    <ul class="list-group">
+                        <li class="list-group-heading">Trade Operator</li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('stock.buy',code=code) }}">
+                                <i class="glyphicon glyphicon-lock"></i> Buy In</a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <a href="{{ url_for('stock.sell',code=code) }}">
+                                <i class="glyphicon glyphicon-lock"></i> Sell Out</a>
+                        </li>
+
+                        <li class="list-group-item active">
+                            <a href="{{ url_for('stock.list',code=code) }}">
+                                <i class="glyphicon glyphicon-picture"></i> Trade List</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class=" panel panel-default">
+                    <div class="panel-heading">
+
+                        <h2 class="panel-title" style="font-size: 18px">
+                            Predicted Increase Percent
+                        </h2>
+                    </div>
+                    <div class="panel-body clearfix text-center">
+                        <i class="es-icon es-icon-arrowup" style="font-size: 36px">{{ preInfo.inc or 0 }}%</i>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default index-article">
+                    <div class="panel-heading">
+                        <h2 class="panel-title" style="font-size: 18px">
+                            Relative News
+                        </h2>
+                    </div>
+                    <div class="panel-body clearfix">
+                        <ul class="index-new-article ">
+                            {% for new in news %}
+                                <li class="clearfix" style="padding-right: 10px">
+                                    <i class="es-icon es-icon-dot color-primary mrs"></i><a
+                                        href="{{ new.link }}" title="{{ new.title }}">{{ new.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9" id="setting-content">
+                <div class="panel panel-default panel-col">
+                    <div class="panel-heading">Trade List——{{ name }}({{ code }})</div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 container table-responsive">
+                            {% if trade_list[0] %}
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Stock Code</th>
+                                        <th>Stock Name</th>
+                                        <th>Price</th>
+                                        <th>Volume</th>
+                                        <th>Time</th>
+                                        <th>In/Out</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for trade in trade_list %}
+                                        <tr>
+                                            <td>{{ code }}</td>
+                                            <td>{{ name }}</td>
+                                            <td>{{ trade.price }}</td>
+                                            <td>{{ trade.num }}</td>
+                                            <td>{{ trade.trade_time }}</td>
+                                            {% if trade.is_buy %}
+                                                <td>IN</td>
+                                            {% else %}
+                                                <td>Out</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <br>
+                                <p class="text-center">You don't have trade history!</p>
+                                <br>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer_ext %}
+{% endblock %}
+
+

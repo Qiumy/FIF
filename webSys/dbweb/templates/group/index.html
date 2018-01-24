@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('group.group_all') }}">{{ _('Groups') }}</a></li>
+        </ol>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ _('Hot Groups') }}</h3>
+                        <a href="{{ url_for('group.group_all') }}" class="more">
+                            <i class="es-icon es-icon-morehoriz"></i></a>
+                    </div>
+                    {% include 'group/widget_group_list.html' %}
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">{{ _('Latest Topics') }}</h3></div>
+                    {% include 'group/widget_topic_list.html' %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <form class="mbl" action="/group/search_group" method="get">
+                    <div class="search-with-btn">
+                        <input type="hidden" name="_csrf_token" value="061532c03e85456ed4a0dcc805896ed9444bce33">
+                        <input type="text" class="form-control" placeholder="Topics Search" name="keyWord" value="">
+                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

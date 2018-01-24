@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div id="content-container" class="container">
+        <div class="es-section login-section">
+            <div class="logon-tab clearfix">
+                <a class="active">Sign in</a>
+                <a href="{{ url_for('user.reg') }}">Sign up</a>
+            </div>
+            <div class="login-main">
+                <form id="login-form" class="form-vertical" method="post"
+                      action="{{ url_for('user.signin', next=request.args.get('next')) }}" novalidate="novalidate"
+                      data-widget-cid="widget-1">
+                    <div class="form-group mbl">
+                        <label class="control-label" for="login_username">Email</label>
+                        <input class="form-control input-lg" id="login_email" type="text" name="email"
+                               value="{{ form.email }}" required="" placeholder="{{ _('Email Address') }}"
+                               data-com.agilebits.onepassword.user-edited="yes" data-widget-cid="widget-2"
+                               data-explain="">
+                        <div class="help-block"></div>
+                    </div>
+                    <div class="form-group mbl">
+                        <label class="control-label" for="login_password">Password</label>
+                        <div class="controls">
+                            <input class="form-control input-lg" id="login_password" type="password" name="password"
+                                   value="{{ form.password }}" placeholder="{{ _('Password') }}"
+                                   data-com.agilebits.onepassword.user-edited="yes"
+                                   data-widget-cid="widget-3" data-explain="">
+                            <div class="help-block" style="display:none;"></div>
+                        </div>
+                    </div>
+                    {% if message %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endif %}
+                    <div class="form-group mbl">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                    </div>
+
+                </form>
+
+                <div class="mbl">
+                    <a href="{{ url_for('user.password_reset_request') }}">Forget Password?</a>
+                    <span class="text-muted mhs">|</span>
+                    <span class="text-muted">No Account？</span>
+                    <a href="{{ url_for('user.reg') }}">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

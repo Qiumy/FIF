@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <link href="{{ url_for('static', filename='css/simplemde.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('group.index') }}">{{ _('Group') }}</a></li>
+            <li><a href="{{ url_for('group.group_view', gid=group.id) }}">{{ group.title | truncate(20) }}</a>
+            </li>
+            <li class="active">
+                <a href="{{ url_for('group.topic_new', gid=group.id) }}">New Topic</a></li>
+        </ol>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="{{ url_for('group.topic_new', gid=group.id) }}" method="POST" onsubmit="validateForm()">
+                        <div class="form-group">
+                            <label>{{ _('Title') }}</label>
+                            <input type="text" class="form-control" name='title' required><br/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ _('Content') }}</label>
+                            <textarea name="content" data-provide="markdown"
+                                      id="target-editor" rows="20"></textarea>
+                        </div>
+
+                        <div class="form-submit text-right">
+                            <input class='btn btn-success' id='submit' type='submit'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("target-editor"),
+            autosave: true,
+            showIcons: ["code", "table"],
+            tabSize: 4,
+        });
+
+        function validateForm() {
+            var x = simplemde.value();
+            if (x == null || x == "") {
+                alert("Please enter topic");
+                return false;
+            }
+        }
+    </script>
+{% endblock %}
+
+{# group #}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block header_ext %}
+    <link href="{{ url_for('static', filename='css/simplemde.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li><a href="{{ url_for('category.all') }}">{{ _('All') }}</a></li>
+
+        </ol>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="{{ url_for('category.topic_new') }}" method="POST" onsubmit="validateForm()">
+                        <div class="form-group">
+                            <label>{{ _('Title') }}</label>
+                            <input type="text" class="form-control" name='title' required><br/>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Category Type') }}</label>
+                            <select class="form-control" id="cate-type" name="cate-type" required>
+                                <option value="1">{{ _('Research') }}</option>
+                                <option value="2">{{ _('Study') }}</option>
+                                <option value="3">{{ _('Question') }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ _('Content') }}</label>
+                            <textarea name="content" data-provide="markdown"
+                                      id="target-editor" rows="20"></textarea>
+                        </div>
+
+                        <div class="form-submit text-right">
+                            <input class='btn btn-success' id='submit' type='submit'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("target-editor"),
+            autosave: true,
+            showIcons: ["code", "table"],
+            tabSize: 4,
+        });
+
+        function validateForm() {
+            var x = simplemde.value();
+            if (x == null || x == "") {
+                alert("Please enter topic");
+                return false;
+            }
+        }
+    </script>
+{% endblock %}
+
+{# group #}

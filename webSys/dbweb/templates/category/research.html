@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="content-container" class="container">
+        <ol class="breadcrumb breadcrumb-o" style="margin-top:-18px">
+            <li><a href="/">{{ _('Index') }}</a></li>
+            <li class="active"><a href="{{ url_for('category.all') }}">{{ _('All') }}</a></li>
+        </ol>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-default">
+
+                            <ul class="nav nav-tabs" id="topic-nav">
+                                <li role="presentation">
+                                    <a href="{{ url_for('category.all') }}" aria-controls="all" role="tab"
+                                       data-toggle="tab">{{ _('All') }}</a>
+                                </li>
+                                <li role="presentation" class="active">
+                                    <a href="{{ url_for('category.research') }}" aria-controls="research" role="tab"
+                                       data-toggle="tab">{{ _('Research') }}</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="{{ url_for('category.study') }}" aria-controls="study" role="tab"
+                                       data-toggle="tab">{{ _('Study') }}</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="{{ url_for('category.question') }}" aria-controls="question" role="tab"
+                                       data-toggle="tab">{{ _('Question') }}</a>
+                                </li>
+                            </ul>
+
+                    {% with topics = all_topic %}
+                        {% include 'category/widget_topic_list.html' %}
+                    {% endwith %}
+                </div>
+            </div>
+            {% include 'category/widget_category_aside.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block footer_ext %}
+    <script src="{{ url_for('static',filename='js/jquery-scrolltofixed-min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#topic-nav').scrollToFixed();
+        });
+    </script>
+{% endblock %}
